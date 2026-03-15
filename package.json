@@ -8,16 +8,21 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
     "cors": "^2.8.5",
-    "ollama": "^0.5.15",
     "dotenv": "^16.4.5",
-    "fs": "^0.0.1-security"
+    "express": "^4.19.2",
+    "ollama": "^0.5.15"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
   },
-  "keywords": ["ai", "student-assistant", "ollama", "rag", "express"],
+  "keywords": [
+    "ai",
+    "student-assistant",
+    "ollama",
+    "rag",
+    "express"
+  ],
   "author": "Mohammed Sameer Khan",
   "license": "MIT"
 }

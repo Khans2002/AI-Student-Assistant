@@ -1,29 +1,44 @@
 # AI Student Assistant
 
-Simple AI assistant for students using Node.js, Express, Ollama (Mistral), and basic RAG.
+Simple AI assistant for students using Node.js, Express, Ollama, and basic retrieval-augmented generation (RAG).
 
 ## Features
-- Ask questions about exams, fees, policies
-- Retrieves relevant docs + LLM response
-- API: POST /ask { "question": "..." }
+- Ask questions about exams, fees, and policies
+- Retrieves relevant documents before calling the LLM
+- Uses Ollama with a configurable model
+- Health endpoint reports document availability and Ollama/model connectivity
 
 ## Quick Setup (macOS/Linux)
-1. Ensure Ollama installed: `brew install ollama`
+1. Install Ollama: `brew install ollama`
 2. Start Ollama: `ollama serve`
-3. Pull model: `ollama pull mistral`
-4. In project dir:
-   ```
+3. Pull the model you want to use: `ollama pull mistral`
+4. In the project directory:
+   ```bash
    npm install
    cp .env.example .env
    npm run dev
    ```
-5. Test: `curl -X POST http://localhost:3000/ask -H "Content-Type: application/json" -d '{"question":"What are the exam dates?"}'`
+5. Check connectivity:
+   ```bash
+   curl http://localhost:3000/health
+   ```
+6. Ask a question:
+   ```bash
+   curl -X POST http://localhost:3000/ask \
+     -H "Content-Type: application/json" \
+     -d '{"question":"What is the late fee?"}'
+   ```
+
+## Environment Variables
+- `OLLAMA_BASE_URL` default: `http://localhost:11434`
+- `OLLAMA_MODEL` default: `mistral`
+- `PORT` default: `3000`
 
 ## Architecture
-```
-Frontend Request → Express API (/ask) → RAG (docs/) + Ollama (Mistral) → Response
+```text
+Client Request -> Express API (/ask) -> Retrieve matching docs from documents/ -> Ollama -> JSON response
 ```
 
 ## Endpoints
-- `POST /ask` - Ask question
-- `GET /health` - Check status
+- `POST /ask` with body `{ "question": "..." }`
+- `GET /health` returns service status, document count, Ollama connectivity, and model availability
