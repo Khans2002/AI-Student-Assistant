@@ -10,42 +10,61 @@ Simple AI assistant for students using Node.js, Express, Ollama, and basic retri
 - Documents endpoint helps the frontend inspect available knowledge sources
 
 ## Quick Setup
-1. Start Ollama:
+1. Install Ollama from the official site for your operating system:
+   ```text
+   https://ollama.com/download
+   ```
+2. Start Ollama:
    ```bash
    ollama serve
    ```
-2. Pull the model used by the app:
+3. Pull the model used by the app:
    ```bash
-   ollama pull mistral
+   ollama pull mistral:latest
    ```
-3. In the project directory:
+4. In the project directory:
    ```bash
    npm install
-   cp .env.example .env
    npm run dev
    ```
-4. Open the frontend:
+5. Create `.env` from `.env.example` if you need custom settings.
+   macOS/Linux:
+   ```bash
+   cp .env.example .env
+   ```
+   Windows PowerShell:
+   ```powershell
+   Copy-Item .env.example .env
+   ```
+6. Open the frontend:
    ```text
    http://localhost:3000
    ```
-5. Check backend connectivity directly if needed:
+7. Check backend connectivity directly if needed:
    ```bash
    curl http://localhost:3000/health
    ```
-6. Inspect available documents:
+8. Inspect available documents:
    ```bash
    curl http://localhost:3000/documents
    ```
-7. Ask a question with the API:
+9. Ask a question with the API:
+   macOS/Linux:
    ```bash
    curl -X POST http://localhost:3000/ask \
      -H "Content-Type: application/json" \
      -d '{"question":"What is the late fee?"}'
    ```
+   Windows PowerShell:
+   ```powershell
+   curl -Method POST http://localhost:3000/ask `
+     -Headers @{ "Content-Type" = "application/json" } `
+     -Body '{"question":"What is the late fee?"}'
+   ```
 
 ## Environment Variables
 - `OLLAMA_BASE_URL` default: `http://localhost:11434`
-- `OLLAMA_MODEL` default: `mistral:latest`
+- `OLLAMA_MODEL` default: `mistral`
 - `PORT` default: `3000`
 - `TOP_K_DOCUMENTS` default: `2`
 - `MAX_EXCERPT_LENGTH` default: `600`
@@ -66,7 +85,7 @@ Client Request -> Express API (/ask) -> Retrieve matching docs from documents/ -
 {
   "question": "What is the late fee?",
   "answer": "The late fee is $50 after the due date.",
-  "model": "mistral:latest",
+  "model": "mistral",
   "contextFound": true,
   "sources": [
     {
@@ -83,4 +102,4 @@ Client Request -> Express API (/ask) -> Retrieve matching docs from documents/ -
 npm test
 ```
 
-Note: In some restricted Windows environments, `npm test` may fail with a process spawn permission error even when the app itself runs correctly.
+Note: On Windows, if `curl` is aliased differently in PowerShell, you can also use `Invoke-RestMethod`.

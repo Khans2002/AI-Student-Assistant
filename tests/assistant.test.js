@@ -1,6 +1,10 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { buildPrompt, getOllamaStatus } = require('../services/assistant');
+const {
+  buildPrompt,
+  getModelAliases,
+  getOllamaStatus
+} = require('../services/assistant');
 
 test('buildPrompt includes both context and question', () => {
   const prompt = buildPrompt('What is the fee?', '\n\n--- From fees.txt ---\nLate fee is $50.');
@@ -13,7 +17,7 @@ test('getOllamaStatus reports model availability from Ollama list', async () => 
   const mockClient = {
     async list() {
       return {
-        models: [{ name: 'mistral' }]
+        models: [{ name: 'mistral:latest' }]
       };
     }
   };
@@ -22,4 +26,11 @@ test('getOllamaStatus reports model availability from Ollama list', async () => 
 
   assert.equal(status.ollamaConnected, true);
   assert.equal(status.modelAvailable, true);
+});
+
+test('getModelAliases includes base and latest tags', () => {
+  const aliases = getModelAliases('mistral');
+
+  assert.equal(aliases.has('mistral'), true);
+  assert.equal(aliases.has('mistral:latest'), true);
 });

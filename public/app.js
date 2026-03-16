@@ -35,23 +35,35 @@ function clearMessages() {
   setHidden(sourcesCard, true);
 }
 
+function clearSources() {
+  sourcesList.replaceChildren();
+}
+
 function renderSources(data) {
+  clearSources();
+
   if (!data.sources || data.sources.length === 0) {
-    sourcesList.innerHTML = '';
     contextBadge.textContent = 'No document match';
     setHidden(sourcesCard, false);
     return;
   }
 
   contextBadge.textContent = data.contextFound ? 'Context found' : 'No document match';
-  sourcesList.innerHTML = data.sources
-    .map((source) => `
-      <li class="source-item">
-        <h3>${source.file}</h3>
-        <p>${source.excerpt}</p>
-      </li>
-    `)
-    .join('');
+
+  for (const source of data.sources) {
+    const item = document.createElement('li');
+    item.className = 'source-item';
+
+    const title = document.createElement('h3');
+    title.textContent = source.file;
+
+    const excerpt = document.createElement('p');
+    excerpt.textContent = source.excerpt;
+
+    item.append(title, excerpt);
+    sourcesList.append(item);
+  }
+
   setHidden(sourcesCard, false);
 }
 
