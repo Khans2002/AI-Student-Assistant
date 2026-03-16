@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Student Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Student Support</p>
+      <h1>Ask your campus assistant anything.</h1>
+      <p class="intro">
+        Get quick answers about fees, exams, and student policies using the documents already loaded into the backend.
+      </p>
+      <div class="status-row" aria-live="polite">
+        <div class="status-card">
+          <span class="status-label">Backend</span>
+          <strong id="backend-status">Checking...</strong>
+        </div>
+        <div class="status-card">
+          <span class="status-label">Model</span>
+          <strong id="model-status">Checking...</strong>
+        </div>
+        <div class="status-card">
+          <span class="status-label">Documents</span>
+          <strong id="document-status">Checking...</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="assistant-panel">
+      <form id="ask-form" class="question-form">
+        <label class="field-label" for="question">Your question</label>
+        <textarea
+          id="question"
+          name="question"
+          rows="6"
+          maxlength="500"
+          placeholder="Example: What is the late fee?"
+          required
+        ></textarea>
+        <div class="form-footer">
+          <p class="helper-text">Ask about exams, fees, attendance, refunds, or academic policies.</p>
+          <button id="ask-button" type="submit">Ask</button>
+        </div>
+      </form>
+
+      <section class="response-panel" aria-live="polite">
+        <div id="loading-state" class="message hidden">Thinking through your question...</div>
+        <div id="error-state" class="message error hidden" role="alert"></div>
+
+        <article id="answer-card" class="answer-card hidden">
+          <div class="answer-meta">
+            <span class="answer-tag">AI Answer</span>
+            <span id="answer-model" class="answer-model"></span>
+          </div>
+          <p id="answer-text"></p>
+        </article>
+
+        <section id="sources-card" class="sources-card hidden">
+          <div class="sources-header">
+            <h2>Sources</h2>
+            <span id="context-badge" class="context-badge"></span>
+          </div>
+          <ul id="sources-list" class="sources-list"></ul>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

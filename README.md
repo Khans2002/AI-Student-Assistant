@@ -9,17 +9,26 @@ Simple AI assistant for students using Node.js, Express, Ollama, and basic retri
 - Health endpoint reports document availability and Ollama/model connectivity
 - Documents endpoint helps the frontend inspect available knowledge sources
 
-## Quick Setup (macOS/Linux)
-1. Install Ollama: `brew install ollama`
-2. Start Ollama: `ollama serve`
-3. Pull the model you want to use: `ollama pull mistral`
-4. In the project directory:
+## Quick Setup
+1. Start Ollama:
+   ```bash
+   ollama serve
+   ```
+2. Pull the model used by the app:
+   ```bash
+   ollama pull mistral
+   ```
+3. In the project directory:
    ```bash
    npm install
    cp .env.example .env
    npm run dev
    ```
-5. Check connectivity:
+4. Open the frontend:
+   ```text
+   http://localhost:3000
+   ```
+5. Check backend connectivity directly if needed:
    ```bash
    curl http://localhost:3000/health
    ```
@@ -27,7 +36,7 @@ Simple AI assistant for students using Node.js, Express, Ollama, and basic retri
    ```bash
    curl http://localhost:3000/documents
    ```
-7. Ask a question:
+7. Ask a question with the API:
    ```bash
    curl -X POST http://localhost:3000/ask \
      -H "Content-Type: application/json" \
@@ -36,7 +45,7 @@ Simple AI assistant for students using Node.js, Express, Ollama, and basic retri
 
 ## Environment Variables
 - `OLLAMA_BASE_URL` default: `http://localhost:11434`
-- `OLLAMA_MODEL` default: `mistral`
+- `OLLAMA_MODEL` default: `mistral:latest`
 - `PORT` default: `3000`
 - `TOP_K_DOCUMENTS` default: `2`
 - `MAX_EXCERPT_LENGTH` default: `600`
@@ -57,7 +66,7 @@ Client Request -> Express API (/ask) -> Retrieve matching docs from documents/ -
 {
   "question": "What is the late fee?",
   "answer": "The late fee is $50 after the due date.",
-  "model": "mistral",
+  "model": "mistral:latest",
   "contextFound": true,
   "sources": [
     {
@@ -73,3 +82,5 @@ Client Request -> Express API (/ask) -> Retrieve matching docs from documents/ -
 ```bash
 npm test
 ```
+
+Note: In some restricted Windows environments, `npm test` may fail with a process spawn permission error even when the app itself runs correctly.

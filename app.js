@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { Ollama } = require('ollama');
+const path = require('path');
 const config = require('./config');
 const { generateAnswer, getOllamaStatus } = require('./services/assistant');
 const { loadDocuments, retrieveRelevantDocuments } = require('./services/retrieval');
@@ -12,6 +13,7 @@ function createApp(dependencies = {}) {
 
   app.use(cors());
   app.use(express.json());
+  app.use(express.static(path.join(__dirname, 'public')));
 
   app.get('/health', async (req, res) => {
     const health = {
